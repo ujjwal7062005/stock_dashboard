@@ -1,0 +1,6 @@
+requirements.txt
+app.py
+generate_data.py
+venv/
+.venv/
+__pycache__/

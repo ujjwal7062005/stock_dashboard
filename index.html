@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stock Analytics Dashboard — StockLens</title>
+<link rel="stylesheet" href="css/style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="brand">
+      <span class="brand-icon">📈</span>
+      <span class="brand-name">StockLens</span>
+    </div>
+
+    <div class="control-group">
+      <label for="ticker-select">Ticker</label>
+      <select id="ticker-select"></select>
+      <span class="sector-badge" id="sector-badge">—</span>
+    </div>
+
+    <div class="control-group">
+      <label for="start-date">Start date</label>
+      <input type="date" id="start-date">
+    </div>
+
+    <div class="control-group">
+      <label for="end-date">End date</label>
+      <input type="date" id="end-date">
+    </div>
+
+    <div class="control-group">
+      <label>Quick range</label>
+      <div class="chip-row" id="quick-range">
+        <button class="chip" data-days="30">1M</button>
+        <button class="chip" data-days="90">3M</button>
+        <button class="chip" data-days="180">6M</button>
+        <button class="chip" data-days="365">1Y</button>
+        <button class="chip active" data-days="all">All</button>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label>Chart type</label>
+      <div class="chip-row" id="chart-type">
+        <button class="chip active" data-type="line">Line</button>
+        <button class="chip" data-type="candleish">OHLC</button>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label class="checkbox-label">
+        <input type="checkbox" id="ma7-toggle" checked> Show MA(7)
+      </label>
+      <label class="checkbox-label">
+        <input type="checkbox" id="ma30-toggle" checked> Show MA(30)
+      </label>
+    </div>
+
+    <div class="control-group">
+      <button id="export-btn" class="btn-secondary">⬇ Export filtered CSV</button>
+    </div>
+
+    <div class="control-group theme-toggle-wrap">
+      <label class="checkbox-label">
+        <input type="checkbox" id="theme-toggle"> Dark mode
+      </label>
+    </div>
+  </aside>
+
+  <!-- Main content -->
+  <main class="main">
+    <header class="topbar">
+      <h1 id="page-title">Loading…</h1>
+      <p class="subtitle">Interactive OHLCV analytics · synthetic demo dataset</p>
+    </header>
+
+    <!-- KPI cards -->
+    <section class="kpi-grid" id="kpi-grid">
+      <div class="kpi-card">
+        <span class="kpi-label">Current Price</span>
+        <span class="kpi-value" id="kpi-price">—</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-label">Period Change</span>
+        <span class="kpi-value" id="kpi-change">—</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-label">Period High</span>
+        <span class="kpi-value" id="kpi-high">—</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-label">Period Low</span>
+        <span class="kpi-value" id="kpi-low">—</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-label">Avg Volume</span>
+        <span class="kpi-value" id="kpi-volume">—</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-label">Volatility</span>
+        <span class="kpi-value" id="kpi-volatility">—</span>
+      </div>
+    </section>
+
+    <!-- Main chart -->
+    <section class="panel">
+      <div class="panel-header">
+        <h2>Price Trend</h2>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="priceChart"></canvas>
+      </div>
+    </section>
+
+    <!-- Volume + sector comparison -->
+    <section class="grid-2">
+      <div class="panel">
+        <div class="panel-header"><h2>Volume</h2></div>
+        <div class="chart-wrap chart-wrap-small">
+          <canvas id="volumeChart"></canvas>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-header"><h2>Sector Comparison (% change)</h2></div>
+        <div class="chart-wrap chart-wrap-small">
+          <canvas id="sectorChart"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <div id="status-banner" class="status-banner hidden"></div>
+  </main>
+</div>
+
+<script src="js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,376 @@
+/* ============================================================
+   Stock Analytics Dashboard — Stylesheet
+   Layout: CSS Grid (app shell) + Flexbox (components)
+   Theming: CSS custom properties, toggled via [data-theme]
+   ============================================================ */
+
+:root {
+  --bg: #f4f6fb;
+  --bg-elevated: #ffffff;
+  --sidebar-bg: #12172b;
+  --sidebar-text: #cfd4e6;
+  --text-primary: #171923;
+  --text-secondary: #666f8d;
+  --border: #e4e7f0;
+  --accent: #4d6bfe;
+  --accent-soft: #e8edff;
+  --positive: #1fa774;
+  --negative: #e5484d;
+  --shadow: 0 4px 16px rgba(20, 25, 50, 0.06);
+  --shadow-lg: 0 10px 30px rgba(20, 25, 50, 0.10);
+  --radius: 14px;
+  --radius-sm: 8px;
+  --transition: 180ms ease;
+}
+
+[data-theme="dark"] {
+  --bg: #0b0e1a;
+  --bg-elevated: #151a2c;
+  --sidebar-bg: #0a0c16;
+  --sidebar-text: #a9b1cf;
+  --text-primary: #eef0fa;
+  --text-secondary: #8b91ac;
+  --border: #232a44;
+  --accent: #7b93ff;
+  --accent-soft: #1c2440;
+  --positive: #35c98d;
+  --negative: #f0656a;
+  --shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.45);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body {
+  font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text-primary);
+  transition: background var(--transition), color var(--transition);
+}
+
+/* ---------- App shell: flexible grid ---------- */
+.app {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  min-height: 100vh;
+}
+
+/* ---------- Sidebar ---------- */
+.sidebar {
+  background: var(--sidebar-bg);
+  color: var(--sidebar-text);
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 6px;
+}
+
+.brand-icon {
+  font-size: 1.4rem;
+}
+
+.control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.control-group label {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--sidebar-text);
+  opacity: 0.75;
+}
+
+select,
+input[type="date"] {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #fff;
+  padding: 9px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 0.92rem;
+  outline: none;
+  transition: border-color var(--transition), background var(--transition);
+}
+
+select:focus,
+input[type="date"]:focus {
+  border-color: var(--accent);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+select option {
+  color: #111;
+}
+
+.sector-badge {
+  align-self: flex-start;
+  font-size: 0.72rem;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.chip {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: var(--sidebar-text);
+  padding: 6px 12px;
+  font-size: 0.82rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.chip:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.chip.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.88rem;
+  cursor: pointer;
+  color: var(--sidebar-text);
+  text-transform: none;
+  letter-spacing: normal;
+  opacity: 1;
+}
+
+.checkbox-label input {
+  accent-color: var(--accent);
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+}
+
+.btn-secondary {
+  background: transparent;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  padding: 9px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.btn-secondary:hover {
+  background: var(--accent);
+  color: #fff;
+}
+
+.theme-toggle-wrap {
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* ---------- Main content ---------- */
+.main {
+  padding: 28px 32px 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  min-width: 0; /* allow children to shrink inside grid */
+}
+
+.topbar h1 {
+  margin: 0 0 4px;
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.subtitle {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.92rem;
+}
+
+/* ---------- KPI cards: flexible wrap grid ---------- */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 14px;
+}
+
+.kpi-card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  box-shadow: var(--shadow);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.kpi-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.kpi-label {
+  font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+}
+
+.kpi-value {
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+
+.kpi-value.positive {
+  color: var(--positive);
+}
+
+.kpi-value.negative {
+  color: var(--negative);
+}
+
+/* ---------- Panels ---------- */
+.panel {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 20px 22px;
+  box-shadow: var(--shadow);
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.panel-header h2 {
+  margin: 0;
+  font-size: 1.02rem;
+  font-weight: 650;
+}
+
+.chart-wrap {
+  position: relative;
+  width: 100%;
+  height: 360px;
+}
+
+.chart-wrap-small {
+  height: 260px;
+}
+
+/* ---------- Two-column responsive grid ---------- */
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+/* ---------- Status banner ---------- */
+.status-banner {
+  padding: 12px 16px;
+  border-radius: var(--radius-sm);
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 0.9rem;
+}
+
+.status-banner.error {
+  background: rgba(229, 72, 77, 0.12);
+  color: var(--negative);
+}
+
+.hidden {
+  display: none;
+}
+
+/* ---------- Responsive breakpoints ---------- */
+@media (max-width: 900px) {
+  .app {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    position: relative;
+    height: auto;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .control-group {
+    flex: 1 1 160px;
+  }
+
+  .theme-toggle-wrap {
+    margin-top: 0;
+    border-top: none;
+  }
+
+  .main {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 520px) {
+  .kpi-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .chart-wrap {
+    height: 280px;
+  }
+}
+
+/* ---------- Scrollbar polish ---------- */
+.sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+}
